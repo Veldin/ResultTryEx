@@ -1,4 +1,4 @@
-# Welcome to [result-try-ex](https://github.com/Veldin/result-try-ex)!
+# Welcome to [result-try-ex](https://github.com/Veldin/ResultTryEx)!
 
 I'm a simple person, with a simple dislike of try-catch. So I build this simple library to simply remove some try-catches from my code.
 
