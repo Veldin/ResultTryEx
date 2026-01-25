@@ -231,6 +231,53 @@ And Having to write unwrap() in a try/catch beats the entire g-dmn reason this e
 Think of it like this: fold() is the responsible adult, unwrap() is asmongold.
 <sub><sup>(he doesnt read)
 
+But what if you actually want to handle IOException differently from some RuntimeException?
+
+In plain Java, that usually means nesting catch blocks… catch upon catch upon catch. The problem is, if you don’t really know what the wrapped code might throw, you’re basically wrestling with the language itself.
+
+Let’s assume, though, that we know this particular method can throw a RuntimeException—now what?
+
+```java
+void compareBasics_checkErrors() {
+    // CLASSIC WAY
+    String resultValue;
+
+    try {
+        resultValue = veryFlakyMethod();
+    } catch (IOException e) { // we knew this could happen
+        resultValue = "Caught checked IOException!"; 
+    } catch (RuntimeException  e) { // Good think we know this CAN also happen
+        resultValue = "Caught unexpected RuntimeException";
+    }
+
+    // This line is not guaranteed to run if you miss an exception type
+    assertNotNull(resultValue);
+}
+```
+
+Enter ResultEx and ResultTry:
+
+```java
+void compareBasics_checkErrors() {
+    // NEW WAY
+    ResultEx<String> result = ResultTry.doTry(this::veryFlakyMethod);
+    String resultValue;
+    
+    if (result.isOk()) {
+        resultValue = result.unwrap();
+    } else {
+        // Inspect the type of error without guessing or multiple try/catch
+        if (result.isErrorOfType(IOException.class)) {
+            resultValue = "Caught checked IOException!";
+        } else {
+            resultValue = "Caught some other unexpected Exception! " + result.fold(v -> "", Throwable::getMessage);
+        }
+    }
+
+    assertNotNull(resultValue);
+}
+```
+
 ## TLDR
 
 If you just scrolled to the bottom, welcome. Anyway...
