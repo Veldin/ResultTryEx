@@ -84,6 +84,11 @@ public sealed interface ResultEx<T>
     T unwrap();
 
     /**
+     * Return the Exception if Error, or throw an unchecked ResultUnwrapException if Ok.
+     */
+    Exception unwrapError();
+
+    /**
      * Check if this Error is of given type.
      *
      * @param type The Exception to check
@@ -127,6 +132,10 @@ public sealed interface ResultEx<T>
         public T unwrap() {
             return value;
         }
+
+        public Exception unwrapError() {
+            throw new ResultUnwrapException(new IllegalStateException("Called unwrapError() on an Ok value"));
+        }
     }
 
     /**
@@ -159,6 +168,10 @@ public sealed interface ResultEx<T>
 
         public T unwrap() {
             throw new ResultUnwrapException(error);
+        }
+
+        public Exception unwrapError() {
+            return error;
         }
     }
 }

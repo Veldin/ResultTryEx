@@ -126,4 +126,20 @@ class ResultExTest {
         Exception thrown = assertThrows(ResultUnwrapException.class, err::unwrap);
         assertEquals("Tried to unwrap an Error ResultEx", thrown.getMessage());
     }
+
+    @Test
+    void testUnwrapError() {
+        ResultEx<String> err = ResultEx.err(new IOException("fail"));
+
+        assertFalse(err.isOk());
+        assertTrue(err.isError());
+        assertTrue(err.isErrorOfType(IOException.class));
+
+        Exception exception = err.unwrapError();
+
+        assertInstanceOf(IOException.class, exception);
+        assertEquals("fail", exception.getMessage());
+
+        assertNotNull(exception.getStackTrace());
+    }
 }
