@@ -231,6 +231,8 @@ And Having to write unwrap() in a try/catch beats the entire g-dmn reason this e
 Think of it like this: fold() is the responsible adult, unwrap() is asmongold.
 <sub><sup>(he doesnt read)
 
+### Checking in on exception type
+
 But what if you actually want to handle IOException differently from some RuntimeException?
 
 In plain Java, that usually means nesting catch blocks… catch upon catch upon catch. The problem is, if you don’t really know what the wrapped code might throw, you’re basically wrestling with the language itself.
