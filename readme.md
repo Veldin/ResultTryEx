@@ -176,7 +176,7 @@ void compareBasics_getErrorMessage() {
 ```
 Imagine fold being a functional stand in for
 
-```java
+```
 if (result.isOk()) {
     return someValue;
 } else {
@@ -279,6 +279,18 @@ void compareBasics_checkErrors() {
     assertNotNull(resultValue);
 }
 ```
+## Fun time is over
+
+Exception is a subclass of throwable, so why not wrap throwable?
+
+Throwable is both the parent of Exception and Error, both of those indicate some shit went down on the VM.
+
+But wrapping Throwable would allow fatal errors to be treated as ordinary results, this 'hides' issues
+that violate the whole JVM entirely, and conventionally we don't want to catch a potato that hot.
+
+(Aka; we can't catch Throwable > Error because we risk serious misuse, or we hide catastrophic JVM errors that we potentially
+don't get away with just continuing our process execution.)
+
 
 ## TLDR
 
