@@ -272,7 +272,7 @@ void compareBasics_checkErrors() {
         if (result.isErrorOfType(IOException.class)) {
             resultValue = "Caught checked IOException!";
         } else {
-            resultValue = "Caught some other unexpected Exception! " + result.fold(v -> "", Throwable::getMessage);
+            resultValue = "Caught some other unexpected Exception! " + result.unwrapError().getMessage();
         }
     }
 
