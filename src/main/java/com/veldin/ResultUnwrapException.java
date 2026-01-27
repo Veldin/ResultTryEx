@@ -7,7 +7,7 @@ package com.veldin;
  * This so we don't require a try/catch block.
  *
  * Note: Before calling  Unwrap(), you should ensure that the
- * ResultEx's isOK() returns true / isError() returns false,
+ * ResultEx's isOk() returns true / isError() returns false,
  */
 class ResultUnwrapException extends RuntimeException {
     public ResultUnwrapException(Exception cause) {
