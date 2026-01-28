@@ -291,6 +291,39 @@ that violate the whole JVM entirely, and conventionally we don't want to catch a
 (Aka; we can't catch Throwable > Error because we risk serious misuse, or we hide catastrophic JVM errors that we potentially
 don't get away with just continuing our process execution.)
 
+## Throwing is fun, 
+catching not so much
+
+For every exception thrown, there are two parties involved: the Thrower and the Catcher.
+The one who makes the mess, and the one who has to clean it up.
+
+In this repo, you won’t find any examples where throw statements are replaced with some ResultEx return type.
+This is because I think there is no way we can just do away with Throw, not without fundamentally changing the language
+to such a degree that it is a new language. But most importantly, I don't think we should do away with Throwing at all.
+
+The problem isn’t throwing, Throwing exceptions is fun as fuck.
+The problem is catching. Catching kinda sucks sometimes right now.
+
+What I want to see is a Java future where the catching party has real choice. Where we can still catch the “traditional”
+way, with fast supported wel established try-catch statements. 
+But we’re also free to opt into inferrable types that treat exceptions-as-state. Exception-as-values. Exception-as-data. 
+Whatever you want to call it.
+
+And hey, when we can't handle an exception it in our shit code, we just throw the exception up again. 
+And then it's the next guy's problem. Let the client side choose how they want to catch.
+
+So keep throwing as first-party, but have the client party chose between try-catch and exception-as-values.
+
+This way, no old libs **need** to change, no old code **needs** to change, but in our domain, in our code, 
+we get to decide how exceptions are handled.
+
+And yes: to really make this work, you’d need full language support.
+
+Warnings when results are ignored.
+Exhaustiveness checks.
+Preserved stack traces.
+
+Tooling that forces you to look at failure paths instead of politely pretending they don’t exist.
 
 ## TLDR
 
