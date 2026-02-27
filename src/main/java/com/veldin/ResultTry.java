@@ -194,4 +194,26 @@ public final class ResultTry {
         return lastFailure;  // guaranteed non-null because list was non-empty
     }
 
+    /**
+     * Executes a list of Throwing operations sequentially until one fails.
+     *
+     * @param suppliers List of operations
+     * @param <T> Type of the result
+     * @return The first failing ResultEx, or the last success if they all fail
+     */
+    public static <T> ResultEx<T> doTryChainUntilError(List<Throwing<T>> suppliers) {
+        if (suppliers == null || suppliers.isEmpty()) {
+            return ResultEx.err(new IllegalArgumentException("No suppliers provided"));
+        }
+
+        ResultEx<T> lastSuccess = null;
+        for (Throwing<T> supplier : suppliers) {
+            ResultEx<T> result = doTry(supplier);
+            if (result.isError()) {
+                return result;
+            }
+            lastSuccess = result;
+        }
+        return lastSuccess;  // guaranteed non-null because list was non-empty
+    }
 }

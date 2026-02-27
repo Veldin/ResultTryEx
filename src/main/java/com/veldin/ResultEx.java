@@ -1,5 +1,6 @@
 package com.veldin;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -20,6 +21,17 @@ public sealed interface ResultEx<T>
      * returns false otherwise.
      */
     boolean isError();
+
+    /**
+     * Performs given action when you are a success value
+     * @return itself.
+     */
+    default ResultEx<T> peek(Consumer<? super T> action) {
+        if (isOk()) {
+            action.accept(unwrap());
+        }
+        return this;
+    }
 
     /**
      * Construct a successful ResultEx

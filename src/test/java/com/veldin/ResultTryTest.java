@@ -300,4 +300,31 @@ class ResultTryTest {
         assertEquals(5, value1);
     }
 
+
+    @Test
+    void testDoTryChainUntilError() {
+        // Prepare a list of Throwing<Integer> operations
+        List<Throwing<Integer>> operations = List.of(
+                () -> divideXbyY(10, 2),
+                () -> divideXbyY(10, 2),
+                () -> divideXbyY(10, 2),
+                () -> divideXbyY(10, 2),
+                () -> divideXbyY(10, 2),
+                () -> divideXbyY(10, 0),
+                () -> divideXbyY(10, 2)
+        );
+
+        // Run all operations through doTryMultiple
+        ResultEx<Integer> result = ResultTry.doTryChainUntilError(operations);
+
+        // Assert Ok/Err states
+        assertFalse(result.isOk());
+        assertTrue(result.isError());
+
+        // Extract values via fold
+        int value1 = result.fold(v -> v, e -> -1);
+
+        assertEquals(-1, value1);
+    }
+
 }

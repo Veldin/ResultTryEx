@@ -3,6 +3,8 @@ package com.veldin;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,6 +51,28 @@ class ResultExTest {
 
         assertEquals(1, foldedSuccess);
         assertEquals(-1, foldedErr);
+    }
+
+    @Test
+    void testPeek(){
+        ResultEx<String> success = ResultEx.ok("Hello");
+
+        assertTrue(success.isOk());
+        assertFalse(success.isError());
+
+        ResultEx<String> failure = ResultEx.err(new RuntimeException("Oops"));
+
+        assertFalse(failure.isOk());
+        assertTrue(failure.isError());
+
+        // Do add on the ResultEx's
+        List<String> captured = new ArrayList<>();
+        success.peek(captured::add);
+        failure.peek(captured::add);
+
+        // Assert if only 'success' was added.
+        assertEquals(1, captured.size());
+        assertEquals("Hello", captured.getFirst());
     }
 
     @Test
