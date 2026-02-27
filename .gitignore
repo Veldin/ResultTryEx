@@ -1,3 +1,5 @@
+
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -36,3 +38,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### my other little examples not fit for eyes
+/src/test/java/com/veldin/ExampleTets.java

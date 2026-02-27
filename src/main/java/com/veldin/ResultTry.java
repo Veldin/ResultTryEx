@@ -179,13 +179,19 @@ public final class ResultTry {
      * @return The first successful ResultEx, or the last failure if they all fail
      */
     public static <T> ResultEx<T> doTryChainUntilOk(List<Throwing<T>> suppliers) {
-        for (Throwing<T> s : suppliers) {
-            ResultEx<T> r = doTry(s);
-            if (r.isOk()) {
-                return r;
-            }
+        if (suppliers == null || suppliers.isEmpty()) {
+            return ResultEx.err(new IllegalArgumentException("No suppliers provided"));
         }
-        return doTry(suppliers.getLast()); // last try fails
+
+        ResultEx<T> lastFailure = null;
+        for (Throwing<T> supplier : suppliers) {
+            ResultEx<T> result = doTry(supplier);
+            if (result.isOk()) {
+                return result;
+            }
+            lastFailure = result;
+        }
+        return lastFailure;  // guaranteed non-null because list was non-empty
     }
 
 }
