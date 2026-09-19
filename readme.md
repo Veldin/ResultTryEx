@@ -2,6 +2,12 @@
 
 I'm a simple person, with a simple dislike of try-catch. So I build this simple library to simply remove some try-catches from my code.
 
+    <dependency>
+        <groupId>com.veldin</groupId>
+        <artifactId>result-try-ex</artifactId>
+        <version>0.1.3</version>
+    </dependency>
+
 ## What is this?
 
 It's another one of those exception-as-value kinda deals. The 2 classes that are the most important here are
