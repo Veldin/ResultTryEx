@@ -6,13 +6,39 @@
 
     <groupId>com.veldin</groupId>
     <artifactId>result-try-ex</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.3</version>
+    <packaging>jar</packaging>
+
+    <name>ResultTryEx</name>
+    <description>result-try-ex provides 'ResultEx' and 'ResultTry' to handle operations that may throw exceptions, wrapping successes and failures in a type-safe way to reduce try-catch boilerplate.</description>
+    <url>https://github.com/Veldin/ResultTryEx</url>
 
     <properties>
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <licenses>
+        <license>
+            <name>the Unlicense</name>
+            <url>https://unlicense.org/</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>Veldin</id>
+            <name>Alex Jonkman</name>
+            <email>alex.jonkman@veldin.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/Veldin/ResultTryEx.git</connection>
+        <developerConnection>scm:git:ssh://github.com/Veldin/ResultTryEx.git</developerConnection>
+        <url>https://https://github.com/Veldin/ResultTryEx</url>
+    </scm>
 
     <dependencies>
         <!-- JUnit 5 (JUnit Jupiter API + Engine) -->
@@ -23,5 +49,77 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Generate source JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generate Javadoc JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Sign artifacts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.7</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Publish to Maven Central -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>Maven Central Repository</name>
+            <url>https://central.sonatype.com/api/v1/publisher/deployments/upload</url>
+        </repository>
+    </distributionManagement>
 
 </project>
